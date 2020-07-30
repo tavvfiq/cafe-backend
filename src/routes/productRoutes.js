@@ -1,7 +1,7 @@
 const express = require("express");
 
 const productController = require("../controller/productController");
-const { getProductByName } = require("../controller/productController");
+
 const productRouter = express.Router();
 
 //get all product available

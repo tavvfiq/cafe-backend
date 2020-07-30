@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const bodyParser = require("body-parser");
 const logger = require("morgan");
@@ -5,10 +7,8 @@ const indexRouter = require("./src/routes/indexRoutes");
 
 const app = express();
 
-const port = 8000;
-
-app.listen(port, ()=>{
-    console.log(`Server is running at :${port}`);
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server is running at :${process.env.PORT}`);
 });
 
 app.use(bodyParser.json());

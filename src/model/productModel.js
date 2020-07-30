@@ -1,7 +1,4 @@
 const database = require("../config/config");
-const productController = require("../controller/productController");
-const { resolve } = require("path");
-const { sortProductByNewest } = require("../controller/productController");
 
 const selectQuery = `SELECT product.id, product.name, product.price, category.category FROM product JOIN category ON product.category_id = category.id`;
 
