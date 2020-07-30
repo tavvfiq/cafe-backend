@@ -1,10 +1,12 @@
 const mySQL = require("mysql");
 
+// console.log(typeofprocess.env.HOST);
+
 const database = mySQL.createConnection({
-  host: "localhost",
-  user: "root",
-  database: "backend_expressjs",
-  password: "",
+  host: process.env.HOST,
+  user: process.env.USERNAME,
+  database: process.env.DATABASE,
+  password: process.env.PASSWORD,
 });
 
 database.connect((err) => {
