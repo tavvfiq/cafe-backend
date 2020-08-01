@@ -45,4 +45,8 @@ const historyMiddleware = {
 
 };
 
-module.exports = {productMiddleware, historyMiddleware};
+const transactionMiddleware = {
+
+};
+
+module.exports = {productMiddleware, historyMiddleware, transactionMiddleware};

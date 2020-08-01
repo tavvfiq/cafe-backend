@@ -2,7 +2,7 @@ const express = require("express");
 
 const productController = require("../controller/productController");
 
-const {productMiddleware,} = require("../helpers/middleware/middleware");
+const {productMiddleware, historyMiddleware, transactionMiddleware} = require("../helpers/middleware/middleware");
 
 const productRouter = express.Router();
 
