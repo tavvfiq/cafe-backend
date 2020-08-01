@@ -2,27 +2,27 @@ const express = require("express");
 
 const productController = require("../controller/productController");
 
-const middleware = require("../helpers/middleware/middleware");
+const {productMiddleware,} = require("../helpers/middleware/middleware");
 
 const productRouter = express.Router();
 
 //get all product available
-productRouter.get("/", middleware, productController.getAllProducts);
+productRouter.get("/", productMiddleware, productController.getAllProducts);
 //add product
-productRouter.post("/", middleware, productController.addProduct);
+productRouter.post("/", productMiddleware, productController.addProduct);
 //delete product
-productRouter.delete("/", middleware, productController.deleteProduct);
+productRouter.delete("/", productMiddleware, productController.deleteProduct);
 //update product
-productRouter.patch("/", middleware, productController.updateExistingProduct);
+productRouter.patch("/", productMiddleware, productController.updateExistingProduct);
 //sort product by name
-productRouter.get("/sort/byname", middleware, productController.sortProductByName);
+productRouter.get("/sort/byname", productMiddleware, productController.sortProductByName);
 //sort product by category
-productRouter.get("/sort/bycategory", middleware, productController.sortProductByCategory);
+productRouter.get("/sort/bycategory", productMiddleware, productController.sortProductByCategory);
 //sort product by newest
-productRouter.get("/sort/bynewest", middleware, productController.sortProductByNewest);
+productRouter.get("/sort/bynewest", productMiddleware, productController.sortProductByNewest);
 //sort product by price
-productRouter.get("/sort/byprice", middleware, productController.sortProductByPrice);
+productRouter.get("/sort/byprice", productMiddleware, productController.sortProductByPrice);
 //get product by name
-productRouter.get("/search/:name", middleware, productController.searchProductByName);
+productRouter.get("/search/:name", productMiddleware, productController.searchProductByName);
 
 module.exports = productRouter;

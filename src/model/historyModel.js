@@ -34,10 +34,10 @@ const historyModel = {
             amount
         } = body;
         return new Promise((resolve, reject) => {
-            const startTrans = "START TRANSACTION;";
+            const startTrans = `START TRANSACTION;`;
             const firstQuery = `INSERT INTO history SET invoice=?, cashier=?, amount=?;`;
             const lastQuery = `INSERT INTO product_order_history (product_id, invoice, quantity) VALUES ?;`;
-            const commitTrans = "COMMIT;";
+            const commitTrans = `COMMIT;`;
             const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
             let arrayOfOrder = order_product.map((element) => {
                 return [element.product_id, invoice, element.quantity];

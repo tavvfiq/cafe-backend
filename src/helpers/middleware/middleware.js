@@ -41,4 +41,8 @@ const productMiddleware = (req, res, next) => {
     }
 };
 
-module.exports = productMiddleware;
+const historyMiddleware = {
+
+};
+
+module.exports = {productMiddleware, historyMiddleware};
