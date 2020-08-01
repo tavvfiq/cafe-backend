@@ -17,14 +17,6 @@ const historyController = {
         }).catch((err)=>{
             responseForm.error(res, err);
         });
-    },
-    addTransaction : function(req, res){
-        historyModel.addTransaction(req.body)
-        .then((data)=>{
-            responseForm.success(res,data);
-        }).catch((err)=>{
-            responseForm.error(res,err);
-        });
     }
 }
 module.exports = historyController;
