@@ -1,6 +1,7 @@
 const express = require("express");
 const productRouter = require("./productRoutes");
 const historyRouter = require("./historyRoutes");
+const middleware = require("../helpers/middleware/middleware")
 
 const indexRouter = express.Router();
 
