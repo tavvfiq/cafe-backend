@@ -13,13 +13,13 @@ productRouter.delete("/", productController.deleteProduct);
 //update product
 productRouter.patch("/", productController.updateExistingProduct);
 //sort product by name
-productRouter.get("/sortbyname",productController.sortProductByName);
+productRouter.get("/sort/byname",productController.sortProductByName);
 //sort product by category
-productRouter.get("/sortbycategory",productController.sortProductByCategory);
+productRouter.get("/sort/bycategory",productController.sortProductByCategory);
 //sort product by newest
-productRouter.get("/sortbynewest",productController.sortProductByNewest);
+productRouter.get("/sort/bynewest",productController.sortProductByNewest);
 //sort product by price
-productRouter.get("/sortbyprice",productController.sortProductByPrice);
+productRouter.get("/sort/byprice",productController.sortProductByPrice);
 //get product by name
 productRouter.get("/search/:name", productController.searchProductByName);
 

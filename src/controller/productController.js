@@ -57,7 +57,7 @@ const productController = {
             const responseObj = {
                 product_id: data.insertId,
                 ...req.body,
-                added_at: `${currDate.getFullYear()}-${currDate.getMonth()}-${currDate.getDate()} ${currDate.getHours()}:${currDate.getMinutes()}:${currDate.getSeconds()}`
+                added_at: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
             }
             responseForm.success(res, responseObj);
         }).catch((err)=>{
