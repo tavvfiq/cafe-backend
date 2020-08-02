@@ -11,7 +11,7 @@ const productController = {
         });
     },
     searchProductByName: function(req,res){
-        productModel.searchProductByName(req.params.name)
+        productModel.searchProductByName(req.query.name)
         .then((data)=>{
             res.status(200).json(data);
         }).catch((err)=>{

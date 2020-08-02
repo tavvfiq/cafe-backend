@@ -23,6 +23,6 @@ productRouter.get("/sort/bynewest", productMiddleware, productController.sortPro
 //sort product by price
 productRouter.get("/sort/byprice", productMiddleware, productController.sortProductByPrice);
 //get product by name
-productRouter.get("/search/:name", productMiddleware, productController.searchProductByName);
+productRouter.get("/search/", productMiddleware, productController.searchProductByName);
 
 module.exports = productRouter;

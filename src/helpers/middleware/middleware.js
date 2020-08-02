@@ -4,11 +4,12 @@ const _ = require("underscore");
 const productMiddleware = (req, res, next) => {
     const requestPath = req.route.path;
     const requestMethod = req.method;
-    const isParamsEmpty = _.isEmpty(req.params);
+    const isQuerysEmpty = _.isEmpty(req.query.name);
     const isBodyEmpty = _.isEmpty(req.body);
+    console.log(requestPath);
 
-    if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sortby/name" || requestPath === "/sortby/price" || requestPath === "/sortby/newest" || requestPath === "/sortby/category" || requestPath === "/search/:name")) {
-        if (requestPath === "/search/:name" && isParamsEmpty) {
+    if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sortby/name" || requestPath === "/sortby/price" || requestPath === "/sortby/newest" || requestPath === "/sortby/category" || requestPath === "/search/")) {
+        if (requestPath === "/search/" && isQuerysEmpty) {
             const errorMsg = "request params cannot be blank";
             responseForm.error(res, errorMsg);
         } else {
