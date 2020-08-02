@@ -17,21 +17,11 @@ const productModel = {
             });
         });
     },
-    searchProductByName: function(name){
-        return new Promise((resolve, reject)=>{
-            const searchProductByNameQuery = `${selectQuery} WHERE product.name LIKE '%${name}%'`;
-            database.query(searchProductByNameQuery, (err,data)=>{
-                if(!err){
-                    resolve(data);
-                } else {
-                    reject(err);
-                }
-            });
-        });
-    },
-    sortProductByName: function(){
+    sortProductBy: function(query){
+        const sortBy = query.by;
+        const sortOrder = query.order;
         return new Promise((resolve,reject)=>{
-            const sortProductQuery= `${selectQuery} ORDER BY product.name ASC`;
+            const sortProductQuery= `${selectQuery} ORDER BY product.${sortBy} ${sortOrder}`;
             database.query(sortProductQuery, (err,data)=>{
                 if(!err){
                     resolve(data);
@@ -41,34 +31,10 @@ const productModel = {
             });
         });
     },
-    sortProductByCategory: function(){
+    searchProductByName: function(name){
         return new Promise((resolve, reject)=>{
-            const sortProductQuery = `${selectQuery} ORDER BY product.category_id ASC`;
-            database.query(sortProductQuery,(err,data)=>{
-                if(!err){
-                    resolve(data);
-                } else {
-                    reject(err);
-                }
-            });
-        });
-    },
-    sortProductByNewest: function(){
-        return new Promise((resolve, reject)=>{
-            const sortProductQuery = `${selectQuery} ORDER BY product.added_at DESC`;
-            database.query(sortProductQuery,  (err,data)=>{
-                if(!err){
-                    resolve(data);
-                } else {
-                    reject(err);
-                }
-            });
-        });
-    },
-    sortProductByPrice: function(){
-        return new Promise((resolve, reject)=>{
-            const sortProductQuery = `${selectQuery} ORDER BY product.price ASC`
-            database.query(sortProductQuery,  (err,data)=>{
+            const searchProductByNameQuery = `${selectQuery} WHERE product.name LIKE '%${name}%'`;
+            database.query(searchProductByNameQuery, (err,data)=>{
                 if(!err){
                     resolve(data);
                 } else {

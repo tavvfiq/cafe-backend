@@ -10,6 +10,15 @@ const productController = {
             responseForm.error(res, err);
         });
     },
+    sortProductBy: function(req, res){
+        console.log(req.query);
+        productModel.sortProductBy(req.query)
+        .then((data)=>{
+            res.status(200).json(data);
+        }).catch((err)=>{
+            res.status(500).json(err);
+        });
+    },
     searchProductByName: function(req,res){
         productModel.searchProductByName(req.query.name)
         .then((data)=>{
@@ -17,38 +26,6 @@ const productController = {
         }).catch((err)=>{
             res.status(500).json(err);
         })
-    },
-    sortProductByName: function(_, res){
-        productModel.sortProductByName()
-        .then((data)=>{
-            res.status(200).json(data);
-        }).catch((err)=>{
-            res.status(500).json(err);
-        });
-    },
-    sortProductByCategory: function(_, res){
-        productModel.sortProductByCategory()
-        .then((data)=>{
-            res.status(200).json(data);
-        }).catch((err)=>{
-            res.status(500).json(err);
-        });
-    },
-    sortProductByNewest: function(_, res){
-        productModel.sortProductByNewest()
-        .then((data)=>{
-            res.status(200).json(data);
-        }).catch((err)=>{
-            res.status(500).json(err);
-        });
-    },
-    sortProductByPrice: function(_,res){
-        productModel.sortProductByPrice()
-        .then((data)=>{
-            res.status(200).json(data);
-        }).catch((err)=>{
-            res.status(500).json(err);
-        });
     },
     addProduct: function(req,res){
         productModel.addProduct(req.body)

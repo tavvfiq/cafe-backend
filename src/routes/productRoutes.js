@@ -14,15 +14,9 @@ productRouter.post("/", productMiddleware, productController.addProduct);
 productRouter.delete("/", productMiddleware, productController.deleteProduct);
 //update product
 productRouter.patch("/", productMiddleware, productController.updateExistingProduct);
-//sort product by name
-productRouter.get("/sort/byname", productMiddleware, productController.sortProductByName);
-//sort product by category
-productRouter.get("/sort/bycategory", productMiddleware, productController.sortProductByCategory);
-//sort product by newest
-productRouter.get("/sort/bynewest", productMiddleware, productController.sortProductByNewest);
-//sort product by price
-productRouter.get("/sort/byprice", productMiddleware, productController.sortProductByPrice);
+//sort product by
+productRouter.get("/sort", productMiddleware, productController.sortProductBy);
 //get product by name
-productRouter.get("/search/", productMiddleware, productController.searchProductByName);
+productRouter.get("/search", productMiddleware, productController.searchProductByName);
 
 module.exports = productRouter;
