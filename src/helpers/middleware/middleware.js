@@ -5,6 +5,7 @@ const productMiddleware = (req, res, next) => {
     const requestPath = req.route.path;
     const requestMethod = req.method;
     const queryIsEmpty = _.isEmpty(req.query);
+    const paramIsEmpty = _.isEmpty(req.params);
     const bodyIsEmpty = _.isEmpty(req.body);
 
     if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sort" || requestPath === "/search")) {
@@ -15,8 +16,8 @@ const productMiddleware = (req, res, next) => {
         } else {
             next();
         }
-    } else if (requestMethod === "DELETE" && requestPath === "/") {
-        if (bodyIsEmpty) {
+    } else if (requestMethod === "DELETE" && requestPath === "/:id") {
+        if (paramIsEmpty) {
             const errorMsg = "Error 400: Bad request";
             const status = 400;
             responseForm.error(res, errorMsg, status);

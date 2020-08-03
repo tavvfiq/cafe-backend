@@ -11,7 +11,7 @@ productRouter.get("/", productMiddleware, productController.getAllProducts);
 //add product
 productRouter.post("/", productMiddleware, productController.addProduct);
 //delete product
-productRouter.delete("/", productMiddleware, productController.deleteProduct);
+productRouter.delete("/:id", productMiddleware, productController.deleteProduct);
 //update product
 productRouter.patch("/", productMiddleware, productController.updateExistingProduct);
 //sort product by

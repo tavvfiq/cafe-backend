@@ -1,5 +1,6 @@
 const productModel = require("../model/productModel");
 const responseForm = require("../helpers/form/responseForm");
+const moment = require("moment");
 
 const productController = {
     getAllProducts: function(_, res){
@@ -40,9 +41,12 @@ const productController = {
         });
     },
     deleteProduct: function(req, res){
-        productModel.deleteProduct(req.body)
+        productModel.deleteProduct(req.params.id)
         .then((data)=>{
-            responseForm.success(res, data, 200);
+            const responseObj = {
+                msg:`delete product with id: ${req.params.id} was successful`
+            }
+            responseForm.success(res, responseObj, 200);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
@@ -50,7 +54,11 @@ const productController = {
     updateExistingProduct: function(req, res){
         productModel.updateExistingProduct(req.body)
         .then((data)=>{
-            responseForm.success(res, data, 200);
+            const responseObj = {
+                ...req.body,
+                updated_at: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
+            }
+            responseForm.success(res, responseObj, 201);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });

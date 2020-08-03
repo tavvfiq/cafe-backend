@@ -56,10 +56,9 @@ const productModel = {
             });
         });
     },
-    deleteProduct: function(body){
-        const {id, name} = body;
+    deleteProduct: function(id){
         return new Promise((resolve,reject)=>{
-            const deleteProductQuery = `DELETE FROM product WHERE product.id = ${id} OR product.name="${name}"`;
+            const deleteProductQuery = `DELETE FROM product WHERE product.id = ${id}`;
             database.query(deleteProductQuery, (err,data)=>{
                 if(!err){
                     resolve(data);
