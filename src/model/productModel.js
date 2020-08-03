@@ -2,7 +2,7 @@ const database = require("../config/config");
 
 const moment = require("moment");
 
-const selectQuery = `SELECT product.id, product.name, product.price, category.category, product.added_at, product.updated_at FROM product JOIN category ON product.category_id = category.id`;
+const selectQuery = "SELECT product.id, product.name, product.price, category.category, product.added_at, product.updated_at FROM product JOIN category ON product.category_id = category.id";
 
 const productModel = {
     getAllProducts: function(){
@@ -46,7 +46,7 @@ const productModel = {
     addProduct: function(body){
         const {name, image_path, price, category_id} = body;
         return new Promise((resolve, reject)=>{
-            const addProductQuery = `INSERT INTO product SET name=?, image_path=?, price=?, category_id=?`;
+            const addProductQuery = "INSERT INTO product SET name=?, image_path=?, price=?, category_id=?";
             database.query(addProductQuery, [name, image_path, price, category_id],(err,data)=>{
                 if(!err){
                     resolve(data);
@@ -70,11 +70,11 @@ const productModel = {
         });
     },
     updateExistingProduct: function(body){
-        const {id, name, image_path, price, category_id} = body;
+        const {id, name} = body;
         return new Promise((resolve,reject)=>{
             const updated_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            const updateProductQuery = `UPDATE product SET name=?, image_path=?, price=?, category_id=?, updated_at=? WHERE product.id = ${id} OR product.name = "${name}"`;
-            database.query(updateProductQuery, [name, image_path, price, category_id, updated_at], (err,data)=>{
+            const updateProductQuery = `UPDATE product SET ? WHERE product.id = ${id} OR product.name = "${name}"`;
+            database.query(updateProductQuery, [{...body, updated_at}], (err,data)=>{
                 if(!err){
                     resolve(data);
                 } else {
