@@ -52,7 +52,7 @@ const productController = {
         });
     },
     updateExistingProduct: function(req, res){
-        productModel.updateExistingProduct(req.body)
+        productModel.updateExistingProduct(req.params.id,req.body)
         .then((data)=>{
             const responseObj = {
                 ...req.body,

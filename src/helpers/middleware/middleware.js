@@ -32,8 +32,8 @@ const productMiddleware = (req, res, next) => {
         } else {
             next();
         }
-    } else if (requestMethod === "PATCH" && requestPath === "/") {
-        if (bodyIsEmpty) {
+    } else if (requestMethod === "PATCH" && requestPath === "/:id") {
+        if (bodyIsEmpty && paramIsEmpty) {
             const errorMsg = "Error 400: Bad request";
             const status = 400;
             responseForm.error(res, errorMsg, status);

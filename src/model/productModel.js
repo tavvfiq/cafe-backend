@@ -68,11 +68,10 @@ const productModel = {
             });
         });
     },
-    updateExistingProduct: function(body){
-        const {id, name} = body;
+    updateExistingProduct: function(id, body){
         return new Promise((resolve,reject)=>{
             const updated_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            const updateProductQuery = `UPDATE product SET ? WHERE product.id = ${id} OR product.name = "${name}"`;
+            const updateProductQuery = `UPDATE product SET ? WHERE product.id = ${id}`;
             database.query(updateProductQuery, [{...body, updated_at}], (err,data)=>{
                 if(!err){
                     resolve(data);

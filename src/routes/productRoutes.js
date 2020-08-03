@@ -13,7 +13,7 @@ productRouter.post("/", productMiddleware, productController.addProduct);
 //delete product
 productRouter.delete("/:id", productMiddleware, productController.deleteProduct);
 //update product
-productRouter.patch("/", productMiddleware, productController.updateExistingProduct);
+productRouter.patch("/:id", productMiddleware, productController.updateExistingProduct);
 //sort product by
 productRouter.get("/sort", productMiddleware, productController.sortProductBy);
 //get product by name
