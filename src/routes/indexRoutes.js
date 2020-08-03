@@ -7,6 +7,6 @@ const indexRouter = express.Router();
 
 indexRouter.use("/product", productRouter);
 indexRouter.use("/history", historyRouter);
-indexRouter.use("/", transactionRouter);
+indexRouter.use("/addtransaction", transactionRouter);
 
 module.exports = indexRouter;

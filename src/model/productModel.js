@@ -57,9 +57,9 @@ const productModel = {
         });
     },
     deleteProduct: function(body){
-        const {name} = body;
+        const {id, name} = body;
         return new Promise((resolve,reject)=>{
-            const deleteProductQuery = `DELETE FROM product WHERE product.name="${name}"`;
+            const deleteProductQuery = `DELETE FROM product WHERE product.id = ${id} OR product.name="${name}"`;
             database.query(deleteProductQuery, (err,data)=>{
                 if(!err){
                     resolve(data);
@@ -70,11 +70,11 @@ const productModel = {
         });
     },
     updateExistingProduct: function(body){
-        const {name, image_path, price, category_id} = body;
+        const {id, name, image_path, price, category_id} = body;
         return new Promise((resolve,reject)=>{
             const updated_at = moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
-            const updateProductQuery = `UPDATE product SET image_path=?, price=?, category_id=?, updated_at=? WHERE product.name = "${name}"`;
-            database.query(updateProductQuery, [image_path, price, category_id, updated_at], (err,data)=>{
+            const updateProductQuery = `UPDATE product SET name=?, image_path=?, price=?, category_id=?, updated_at=? WHERE product.id = ${id} OR product.name = "${name}"`;
+            database.query(updateProductQuery, [name, image_path, price, category_id, updated_at], (err,data)=>{
                 if(!err){
                     resolve(data);
                 } else {

@@ -5,56 +5,54 @@ const productController = {
     getAllProducts: function(_, res){
         productModel.getAllProducts()
         .then((data)=>{
-            responseForm.success(res, data);
+            responseForm.success(res, data, 200);
         }).catch((err)=>{
-            responseForm.error(res, err);
+            responseForm.error(res, err, 500);
         });
     },
     sortProductBy: function(req, res){
-        console.log(req.query);
         productModel.sortProductBy(req.query)
         .then((data)=>{
-            res.status(200).json(data);
+            responseForm.success(res, data, 200);
         }).catch((err)=>{
-            res.status(500).json(err);
+            responseForm.error(res, err, 500);
         });
     },
     searchProductByName: function(req,res){
         productModel.searchProductByName(req.query.name)
         .then((data)=>{
-            res.status(200).json(data);
+            responseForm.success(res, data, 200);
         }).catch((err)=>{
-            res.status(500).json(err);
-        })
+            responseForm.error(res, err, 500);
+        });
     },
     addProduct: function(req,res){
         productModel.addProduct(req.body)
         .then((data)=>{
-            const currDate = new Date();
             const responseObj = {
                 product_id: data.insertId,
                 ...req.body,
                 added_at: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
             }
-            responseForm.success(res, responseObj);
+            responseForm.success(res, responseObj, 201);
         }).catch((err)=>{
-            responseForm.error(res,err);
+            responseForm.error(res,err, 500);
         });
     },
     deleteProduct: function(req, res){
         productModel.deleteProduct(req.body)
         .then((data)=>{
-            res.status(200).json(data);
+            responseForm.success(res, data, 200);
         }).catch((err)=>{
-            res.status(500).json(err);
+            responseForm.error(res, err, 500);
         });
     },
     updateExistingProduct: function(req, res){
         productModel.updateExistingProduct(req.body)
         .then((data)=>{
-            res.status(200).json(data);
+            responseForm.success(res, data, 200);
         }).catch((err)=>{
-            res.status(500).json(err);
+            responseForm.error(res, err, 500);
         });
     }
 }

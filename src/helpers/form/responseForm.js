@@ -1,16 +1,16 @@
 const responseForm = {
-    success: function(res, data){
+    success: function (res, data, status) {
         const responseObj = {
             isSuccess: true,
-            status: 200,
+            status: status,
             data: data
         }
         res.json(responseObj);
     },
-    error: function(res, err){
+    error: function (res, err, status) {
         const responseObj = {
             isSuccess: false,
-            status: 500,
+            status: status,
             data: err
         }
         res.json(responseObj);

@@ -6,48 +6,56 @@ const productMiddleware = (req, res, next) => {
     const requestMethod = req.method;
     const queryIsEmpty = _.isEmpty(req.query);
     const bodyIsEmpty = _.isEmpty(req.body);
-    console.log(requestPath);
 
     if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sort" || requestPath === "/search")) {
-        if (queryIsEmpty) {
-            const errorMsg = "request params cannot be blank";
-            responseForm.error(res, errorMsg);
+        if (requestPath !== "/" && queryIsEmpty) {
+            const errorMsg = "Error 400: Bad request";
+            const status = 400;
+            responseForm.error(res, errorMsg, status);
         } else {
             next();
         }
     } else if (requestMethod === "DELETE" && requestPath === "/") {
         if (bodyIsEmpty) {
-            const errorMsg = "request body cannot be blank";
-            responseForm.error(res, errorMsg);
+            const errorMsg = "Error 400: Bad request";
+            const status = 400;
+            responseForm.error(res, errorMsg, status);
         } else {
             next();
         }
     } else if (requestMethod === "POST" && requestPath === "/") {
         if (bodyIsEmpty) {
-            const errorMsg = "request Body cannot be blank!";
-            responseForm.error(res, errorMsg);
+            const errorMsg = "Error 400: Bad request";
+            const status = 400;
+            responseForm.error(res, errorMsg, status);
         } else {
             next();
         }
     } else if (requestMethod === "PATCH" && requestPath === "/") {
         if (bodyIsEmpty) {
-            const errorMsg = "request Body cannot be blank!";
-            responseForm.error(res, errorMsg);
+            const errorMsg = "Error 400: Bad request";
+            const status = 400;
+            responseForm.error(res, errorMsg, status);
         } else {
             next();
         }
     } else {
-        const errorMsg = "cannot recognize the request!";
-        responseForm.error(res, errorMsg);
+        const errorMsg = "Error 400: Bad request";
+        const status = 400;
+        responseForm.error(res, errorMsg, status);
     }
 };
 
-const historyMiddleware = {
+const historyMiddleware = (req, res, next) => {
 
 };
 
-const transactionMiddleware = {
+const transactionMiddleware = (req, res, next) => {
 
 };
 
-module.exports = {productMiddleware, historyMiddleware, transactionMiddleware};
+module.exports = {
+    productMiddleware,
+    historyMiddleware,
+    transactionMiddleware
+};
