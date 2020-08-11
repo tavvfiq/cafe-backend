@@ -18,5 +18,7 @@ productRouter.patch("/:id", productMiddleware, productController.updateExistingP
 productRouter.get("/sort", productMiddleware, productController.sortProductBy);
 //get product by name
 productRouter.get("/search", productMiddleware, productController.searchProductByName);
+//get product name
+productRouter.get("/filter",productMiddleware, productController.filterMenu);
 
 module.exports = productRouter;

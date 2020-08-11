@@ -62,7 +62,15 @@ const productController = {
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
-    }
+    },
+    filterMenu: function(req, res){
+        productModel.filterMenu(req.query)
+        .then((data)=>{
+            responseForm.success(res, data, 200);
+        }).catch((err)=>{
+            responseForm.error(res, err, 500);
+        });
+    },
 }
 
 module.exports = productController;

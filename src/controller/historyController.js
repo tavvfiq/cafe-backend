@@ -5,6 +5,7 @@ const historyController = {
     showAllHistory : function(_,res){
         historyModel.showAllHistory()
         .then((data)=>{
+            console.log(res.status);
             responseForm.success(res,data, 200);
         }).catch((err)=>{
             responseForm.error(res,err, 500);

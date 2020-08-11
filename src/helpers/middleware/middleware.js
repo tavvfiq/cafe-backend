@@ -8,7 +8,7 @@ const productMiddleware = (req, res, next) => {
     const paramIsEmpty = _.isEmpty(req.params);
     const bodyIsEmpty = _.isEmpty(req.body);
 
-    if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sort" || requestPath === "/search")) {
+    if (requestMethod === "GET" && (requestPath === "/" || requestPath === "/sort" || requestPath === "/search" || requestPath === "/filter")) {
         if (requestPath !== "/" && queryIsEmpty) {
             const errorMsg = "Error 400: Bad request";
             const status = 400;
