@@ -6,13 +6,16 @@ const {menuMiddleware, historyMiddleware, transactionMiddleware} = require("../h
 
 const checkToken = require("../helpers/middleware/checkToken");
 
+const singleFileUpload=require("../helpers/middleware/singleFileUpload");
+
 const menuRouter = express.Router();
 
 
 //get all menu available
-menuRouter.get("/", checkToken, menuMiddleware, menuController.getAllmenus);
+menuRouter.get("/", menuMiddleware, menuController.getAllmenus);
 //add menu
-menuRouter.post("/", menuMiddleware, menuController.addmenu);
+menuRouter.post("/", checkToken, singleFileUpload.singleUpload, menuMiddleware, menuController.addmenu);
+
 menuRouter.get("/pagination",menuMiddleware, menuController.pagination);
 //delete menu
 menuRouter.delete("/:id", menuMiddleware, menuController.deletemenu);

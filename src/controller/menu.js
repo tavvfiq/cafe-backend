@@ -28,6 +28,7 @@ const menuController = {
         });
     },
     addmenu: function(req,res){
+        console.log(req.body);
         menuModel.addmenu(req.body)
         .then((data)=>{
             const responseObj = {
