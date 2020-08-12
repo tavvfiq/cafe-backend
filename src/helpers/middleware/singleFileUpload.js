@@ -42,7 +42,7 @@ const singleFileUpload = {
           msg: err,
         });
       } else {
-        req.body.image_path = `/images/${req.file.filename}`;
+        req.body.image_path = `${process.env.API_URL}images/${req.file.filename}`;
         next();
       }
     });
