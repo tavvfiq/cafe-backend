@@ -103,6 +103,20 @@ const menuModel = {
       });
     });
   },
+  pagination: function (query) {
+    return new Promise((resolve, reject) => {
+      const offset = (Number(query.page) - 1) * Number(query.limit);
+      console.log(query);
+      const paginationQuery = `${selectQuery} LIMIT ${query.limit} OFFSET ${offset}`;
+      database.query(paginationQuery, (err, data) => {
+        if (!err) {
+          resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
 };
 
 module.exports = menuModel;

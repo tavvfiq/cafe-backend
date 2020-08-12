@@ -13,7 +13,8 @@ const menuMiddleware = (req, res, next) => {
     (requestPath === "/" ||
       requestPath === "/sort" ||
       requestPath === "/search" ||
-      requestPath === "/filter")
+      requestPath === "/filter"||
+      requestPath ==="/pagination")
   ) {
     if (requestPath !== "/" && queryIsEmpty) {
       const errorMsg = "Error 400: Bad request";
@@ -53,9 +54,13 @@ const menuMiddleware = (req, res, next) => {
   }
 };
 
-const historyMiddleware = (req, res, next) => {};
+const historyMiddleware = (req, res, next) => {
 
-const transactionMiddleware = (req, res, next) => {};
+};
+
+const transactionMiddleware = (req, res, next) => {
+
+};
 
 module.exports = {
   menuMiddleware,

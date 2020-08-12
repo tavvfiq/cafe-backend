@@ -71,6 +71,13 @@ const menuController = {
             responseForm.error(res, err, 500);
         });
     },
+    pagination: function(req,res){
+        menuModel.pagination(req.query).then((data)=>{
+            responseForm.pagination(req.query, res, data,200)
+        }).catch((err)=>{
+            responseForm.error(res,err,500);
+        })
+    }
 }
 
 module.exports = menuController;
