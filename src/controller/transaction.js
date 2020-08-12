@@ -1,4 +1,4 @@
-const historyModel = require("../model/transactionModel");
+const historyModel = require("../model/transaction");
 const responseForm = require("../helpers/form/responseForm");
 
 const transactionModel = {

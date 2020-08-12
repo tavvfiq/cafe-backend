@@ -1,37 +1,37 @@
-const productModel = require("../model/productModel");
+const menuModel = require("../model/menu");
 const responseForm = require("../helpers/form/responseForm");
 const moment = require("moment");
 
-const productController = {
-    getAllProducts: function(_, res){
-        productModel.getAllProducts()
+const menuController = {
+    getAllmenus: function(_, res){
+        menuModel.getAllmenus()
         .then((data)=>{
             responseForm.success(res, data, 200);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
     },
-    sortProductBy: function(req, res){
-        productModel.sortProductBy(req.query)
+    sortmenuBy: function(req, res){
+        menuModel.sortmenuBy(req.query)
         .then((data)=>{
             responseForm.success(res, data, 200);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
     },
-    searchProductByName: function(req,res){
-        productModel.searchProductByName(req.query.name)
+    searchmenuByName: function(req,res){
+        menuModel.searchmenuByName(req.query.name)
         .then((data)=>{
             responseForm.success(res, data, 200);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
     },
-    addProduct: function(req,res){
-        productModel.addProduct(req.body)
+    addmenu: function(req,res){
+        menuModel.addmenu(req.body)
         .then((data)=>{
             const responseObj = {
-                product_id: data.insertId,
+                menu_id: data.insertId,
                 ...req.body,
                 added_at: moment(Date.now()).format('YYYY-MM-DD HH:mm:ss')
             }
@@ -40,19 +40,19 @@ const productController = {
             responseForm.error(res,err, 500);
         });
     },
-    deleteProduct: function(req, res){
-        productModel.deleteProduct(req.params.id)
+    deletemenu: function(req, res){
+        menuModel.deletemenu(req.params.id)
         .then((data)=>{
             const responseObj = {
-                msg:`delete product with id: ${req.params.id} was successful`
+                msg:`delete menu with id: ${req.params.id} was successful`
             }
             responseForm.success(res, responseObj, 200);
         }).catch((err)=>{
             responseForm.error(res, err, 500);
         });
     },
-    updateExistingProduct: function(req, res){
-        productModel.updateExistingProduct(req.params.id,req.body)
+    updateExistingmenu: function(req, res){
+        menuModel.updateExistingmenu(req.params.id,req.body)
         .then((data)=>{
             const responseObj = {
                 ...req.body,
@@ -64,7 +64,7 @@ const productController = {
         });
     },
     filterMenu: function(req, res){
-        productModel.filterMenu(req.query)
+        menuModel.filterMenu(req.query)
         .then((data)=>{
             responseForm.success(res, data, 200);
         }).catch((err)=>{
@@ -73,4 +73,4 @@ const productController = {
     },
 }
 
-module.exports = productController;
+module.exports = menuController;

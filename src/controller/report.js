@@ -1,4 +1,4 @@
-const historyModel = require("../model/historyModel");
+const historyModel = require("../model/report");
 const responseForm = require("../helpers/form/responseForm");
 
 const historyController = {

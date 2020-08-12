@@ -3,13 +3,13 @@ const database = require("../config/config");
 const moment = require("moment");
 
 const selectQuery =
-  "SELECT product.id, product.name, product.image_path, product.price, category.category, product.added_at, product.updated_at FROM product JOIN category ON product.category_id = category.id";
+  "SELECT menu.id, menu.name, menu.image_path, menu.price, category.category, menu.added_at, menu.updated_at FROM menu JOIN category ON menu.category_id = category.id";
 
-const productModel = {
-  getAllProducts: function () {
+const menuModel = {
+  getAllmenus: function () {
     return new Promise((resolve, reject) => {
-      const getAllProductQuery = `${selectQuery}`;
-      database.query(getAllProductQuery, (err, data) => {
+      const getAllmenuQuery = `${selectQuery}`;
+      database.query(getAllmenuQuery, (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -18,12 +18,12 @@ const productModel = {
       });
     });
   },
-  sortProductBy: function (query) {
+  sortmenuBy: function (query) {
     const sortBy = query.by;
     const sortOrder = query.order;
     return new Promise((resolve, reject) => {
-      const sortProductQuery = `${selectQuery} ORDER BY product.${sortBy} ${sortOrder}`;
-      database.query(sortProductQuery, (err, data) => {
+      const sortmenuQuery = `${selectQuery} ORDER BY menu.${sortBy} ${sortOrder}`;
+      database.query(sortmenuQuery, (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -32,10 +32,10 @@ const productModel = {
       });
     });
   },
-  searchProductByName: function (name) {
+  searchmenuByName: function (name) {
     return new Promise((resolve, reject) => {
-      const searchProductByNameQuery = `${selectQuery} WHERE product.name LIKE '%${name}%'`;
-      database.query(searchProductByNameQuery, (err, data) => {
+      const searchmenuByNameQuery = `${selectQuery} WHERE menu.name LIKE '%${name}%'`;
+      database.query(searchmenuByNameQuery, (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -44,13 +44,13 @@ const productModel = {
       });
     });
   },
-  addProduct: function (body) {
+  addmenu: function (body) {
     const { name, image_path, price, category_id } = body;
     return new Promise((resolve, reject) => {
-      const addProductQuery =
-        "INSERT INTO product SET name=?, image_path=?, price=?, category_id=?";
+      const addmenuQuery =
+        "INSERT INTO menu SET name=?, image_path=?, price=?, category_id=?";
       database.query(
-        addProductQuery,
+        addmenuQuery,
         [name, image_path, price, category_id],
         (err, data) => {
           if (!err) {
@@ -62,10 +62,10 @@ const productModel = {
       );
     });
   },
-  deleteProduct: function (id) {
+  deletemenu: function (id) {
     return new Promise((resolve, reject) => {
-      const deleteProductQuery = `DELETE FROM product WHERE product.id = ${id}`;
-      database.query(deleteProductQuery, (err, data) => {
+      const deletemenuQuery = `DELETE FROM menu WHERE menu.id = ${id}`;
+      database.query(deletemenuQuery, (err, data) => {
         if (!err) {
           resolve(data);
         } else {
@@ -74,12 +74,12 @@ const productModel = {
       });
     });
   },
-  updateExistingProduct: function (id, body) {
+  updateExistingmenu: function (id, body) {
     return new Promise((resolve, reject) => {
       const updated_at = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
-      const updateProductQuery = `UPDATE product SET ? WHERE product.id = ${id}`;
+      const updatemenuQuery = `UPDATE menu SET ? WHERE menu.id = ${id}`;
       database.query(
-        updateProductQuery,
+        updatemenuQuery,
         [{ ...body, updated_at }],
         (err, data) => {
           if (!err) {
@@ -93,7 +93,7 @@ const productModel = {
   },
   filterMenu: function (query) {
     return new Promise((resolve, reject) => {
-      const filterQuery = `${selectQuery} WHERE product.name LIKE '%${query.name}%' ORDER BY product.${query.by} ${query.order}`;
+      const filterQuery = `${selectQuery} WHERE menu.name LIKE '%${query.name}%' ORDER BY menu.${query.by} ${query.order}`;
       database.query(filterQuery, (err, data) => {
         if (!err) {
           resolve(data);
@@ -105,4 +105,4 @@ const productModel = {
   },
 };
 
-module.exports = productModel;
+module.exports = menuModel;

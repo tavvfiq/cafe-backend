@@ -1,6 +1,6 @@
 const database = require("../config/config");
 
-const historyQuery = `SELECT history.invoice, history.cashier, history.order_date, product.name AS product_name, product_order_history.quantity AS product_quantity, history.amount AS total_amount FROM history JOIN product_order_history ON product_order_history.invoice = history.invoice JOIN product ON product_order_history.product_id = product.id`;
+const historyQuery = `SELECT history.invoice, history.cashier, history.order_date, menu.name AS menu_name, menu_order_history.quantity AS menu_quantity, history.amount AS total_amount FROM history JOIN menu_order_history ON menu_order_history.invoice = history.invoice JOIN menu ON menu_order_history.menu_id = menu.id`;
 const historyModel = {
     alignHelper: function (data) {
         let arrayOfOrder = [
@@ -13,8 +13,8 @@ const historyModel = {
         for (let i = 0; i < dataLength; i++) {
             if (i === 0) {
                 arrayOfOrder[orderIdx].push({
-                    product_name: data[i].product_name,
-                    product_quantity: data[i].product_quantity
+                    menu_name: data[i].menu_name,
+                    menu_quantity: data[i].menu_quantity
                 });
                 lastElement = data[i];
             } else if (data[i].invoice !== lastElement.invoice) {
@@ -23,20 +23,20 @@ const historyModel = {
                     invoice: lastElement.invoice,
                     cashier: lastElement.cashier,
                     order_date: lastElement.order_date,
-                    product_order: arrayOfOrder[orderIdx],
+                    menu_order: arrayOfOrder[orderIdx],
                     total_amount: lastElement.total_amount
                 });
                 orderIdx++;
                 arrayOfOrder[orderIdx] = [];
                 arrayOfOrder[orderIdx].push({
-                    product_name: data[i].product_name,
-                    product_quantity: data[i].product_quantity
+                    menu_name: data[i].menu_name,
+                    menu_quantity: data[i].menu_quantity
                 });
                 lastElement = data[i];
             } else {
                 arrayOfOrder[orderIdx].push({
-                    product_name: data[i].product_name,
-                    product_quantity: data[i].product_quantity
+                    menu_name: data[i].menu_name,
+                    menu_quantity: data[i].menu_quantity
                 });
                 lastElement = data[i];
             }
@@ -46,7 +46,7 @@ const historyModel = {
                     invoice: lastElement.invoice,
                     cashier: lastElement.cashier,
                     order_date: lastElement.order_date,
-                    product_order: arrayOfOrder[orderIdx],
+                    menu_order: arrayOfOrder[orderIdx],
                     total_amount: lastElement.total_amount
                 });
             }
