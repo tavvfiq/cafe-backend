@@ -1,5 +1,5 @@
 const formResponse = require("../helpers/form/responseForm");
-const authModel = require("../model/authentication");
+const authModel = require("../model/auth.model");
 
 const authController = {
   register: (req, res) => {

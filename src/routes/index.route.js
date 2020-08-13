@@ -1,8 +1,8 @@
 const express = require("express");
-const menuRouter = require("./menu");
-const historyRouter = require("./report");
-const transactionRouter = require("./transaction");
-const authRouter = require("./authentication");
+const menuRouter = require("./menu.route");
+const historyRouter = require("./report.route");
+const transactionRouter = require("./transaction.route");
+const authRouter = require("./auth.route");
 
 const indexRouter = express.Router();
 

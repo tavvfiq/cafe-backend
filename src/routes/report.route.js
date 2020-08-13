@@ -1,6 +1,6 @@
 const express = require("express");
 
-const historyController = require("../controller/report");
+const historyController = require("../controller/report.controller");
 
 const historyRouter = express.Router();
 

@@ -1,4 +1,4 @@
-const menuModel = require("../model/menu");
+const menuModel = require("../model/menu.model");
 const responseForm = require("../helpers/form/responseForm");
 const moment = require("moment");
 

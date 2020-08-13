@@ -1,6 +1,6 @@
 const express = require("express");
 
-const menuController = require("../controller/menu");
+const menuController = require("../controller/menu.controller");
 
 const {menuMiddleware, historyMiddleware, transactionMiddleware} = require("../helpers/middleware/middleware");
 
