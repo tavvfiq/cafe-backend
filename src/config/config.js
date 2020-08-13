@@ -3,10 +3,10 @@ const mySQL = require("mysql");
 // console.log(typeofprocess.env.HOST);
 
 const database = mySQL.createConnection({
-  host: process.env.HOST,
-  user: process.env.USERNAME,
-  database: process.env.DATABASE,
-  password: process.env.PASSWORD,
+  host: 'us-cdbr-east-02.cleardb.com',
+  user: 'bdd47d68e17522',
+  database: 'heroku_7a9d15006fefd4b',
+  password: 'cfb153ef',
   multipleStatements: true
 });
 
