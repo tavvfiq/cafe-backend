@@ -41,6 +41,9 @@ const authModel = {
           reject(msg);
         } else {
           bcrypt.compare(body.password, data[0].password, (err, isSame) => {
+            if (err) {
+              reject(err);
+            }
             if (isSame) {
               const { username, level_id } = data[0];
               const payload = {
@@ -52,12 +55,8 @@ const authModel = {
               });
               const msg = "successfully logged in";
               resolve({ msg, token });
-            }
-            if (!isSame) {
+            } else {
               reject({ msg: "Wrong password" });
-            }
-            if (err) {
-              reject(err);
             }
           });
         }
