@@ -31,11 +31,12 @@ const authModel = {
   login: (body) => {
     return new Promise((resolve, reject) => {
       const loginQuery =
-        "SELECT username, password, level_id FROM users WHERE username=?";
-      database.query(loginQuery, [body.username], (err, data) => {
+        "SELECT email, password, level_id FROM users WHERE email=?";
+      database.query(loginQuery, [body.email], (err, data) => {
         if (err) {
           reject(err);
         }
+        console.log(data);
         if (data.length === 0) {
           const msg = "User not found. Please register first";
           reject(msg);
