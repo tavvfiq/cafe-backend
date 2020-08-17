@@ -20,9 +20,11 @@ const transactionModel = {
                 return [element.menu_id, invoice, element.quantity];
             });
             database.query(allQuery, [invoice, cashier, amount, arrayOfOrder], (err,data)=>{
+                console.log(data);
                 if(!err){
                     resolve(data);
                 } else {
+
                     reject(err);
                 }
             });

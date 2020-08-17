@@ -5,12 +5,14 @@ const transactionModel = {
     addTransaction: function (req, res) {
         historyModel.addTransaction(req.body)
             .then((data) => {
+                console.log(data);
                 const responseObj = {
                     msg: "Transaction success",
                     ...req.body
                 };
                 responseForm.success(res, responseObj, 201);
             }).catch((err) => {
+                console.log(err);
                 responseForm.error(res, err, 500);
             });
     }
