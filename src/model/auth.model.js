@@ -11,12 +11,11 @@ const authModel = {
           reject(err);
         }
         bcrypt.hash(password, salt, (err, hashedPassword) => {
-          const registerQuery = "INSERT INTO users SET ?";
+          const registerQuery = `INSERT INTO users SET ?`;
           if (err) {
             reject(err);
           }
           const newBody = { ...body, password: hashedPassword };
-          console.log(newBody);
           database.query(registerQuery, [newBody], (err, data) => {
             if (!err) {
               resolve(data);
@@ -36,7 +35,6 @@ const authModel = {
         if (err) {
           reject(err);
         }
-        console.log(data);
         if (data.length === 0) {
           const msg = "User not found. Please register first";
           reject(msg);
