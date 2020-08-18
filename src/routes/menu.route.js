@@ -14,13 +14,13 @@ const menuRouter = express.Router();
 //get all menu available
 menuRouter.get("/", menuMiddleware, menuController.getAllmenus);
 //add menu
-menuRouter.post("/", checkToken, singleFileUpload.singleUpload, menuMiddleware, menuController.addmenu);
+menuRouter.post("/", checkToken.isMaintainer, singleFileUpload.singleUpload, menuMiddleware, menuController.addmenu);
 
 menuRouter.get("/pagination",menuMiddleware, menuController.pagination);
 //delete menu
-menuRouter.delete("/:id", menuMiddleware, menuController.deletemenu);
+menuRouter.delete("/:id", checkToken.isMaintainer,menuMiddleware, menuController.deletemenu);
 //update menu
-menuRouter.patch("/:id", menuMiddleware, menuController.updateExistingmenu);
+menuRouter.patch("/:id", checkToken.isMaintainer, singleFileUpload.singleUpload, menuMiddleware, menuController.updateExistingmenu);
 //sort menu by
 menuRouter.get("/sort", menuMiddleware, menuController.sortmenuBy);
 //get menu by name

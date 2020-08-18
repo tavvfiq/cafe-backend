@@ -9,7 +9,6 @@ const indexRouter = express.Router();
 indexRouter.use("/menu", menuRouter);
 indexRouter.use("/history", historyRouter);
 indexRouter.use("/addtransaction", transactionRouter);
-indexRouter.use("/auth",authRouter);
-
+indexRouter.use("/auth", authRouter);
 
 module.exports = indexRouter;

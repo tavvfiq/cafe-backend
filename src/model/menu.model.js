@@ -75,6 +75,7 @@ const menuModel = {
     });
   },
   updateExistingmenu: function (id, body) {
+    // console.log(body);
     return new Promise((resolve, reject) => {
       const updated_at = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
       const updatemenuQuery = `UPDATE menu SET ? WHERE menu.id = ${id}`;
