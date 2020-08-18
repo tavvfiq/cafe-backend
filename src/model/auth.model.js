@@ -44,9 +44,9 @@ const authModel = {
               reject(err);
             }
             if (isSame) {
-              const { username, level_id } = data[0];
+              const { email, level_id } = data[0];
               const payload = {
-                username,
+                email,
                 level_id,
               };
               const token = jwt.sign(payload, process.env.SECRET_KEY, {
