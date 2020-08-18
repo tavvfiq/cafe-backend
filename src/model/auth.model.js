@@ -8,19 +8,19 @@ const authModel = {
       const { password } = body;
       bcrypt.genSalt(10, (err, salt) => {
         if (err) {
-          reject(err);
+          reject({ msg: "unknown error" });
         }
         bcrypt.hash(password, salt, (err, hashedPassword) => {
           const registerQuery = `INSERT INTO users SET ?`;
           if (err) {
-            reject(err);
+            reject({ msg: "unknown error" });
           }
           const newBody = { ...body, password: hashedPassword };
           database.query(registerQuery, [newBody], (err, data) => {
             if (!err) {
               resolve(data);
             } else {
-              reject(err);
+              reject({ msg: "account exist" });
             }
           });
         });
@@ -33,7 +33,7 @@ const authModel = {
         "SELECT email, password, level_id FROM users WHERE email=?";
       database.query(loginQuery, [body.email], (err, data) => {
         if (err) {
-          reject(err);
+          reject({ msg: "query error" });
         }
         if (data.length === 0) {
           const msg = "User not found. Please register first";
@@ -41,7 +41,7 @@ const authModel = {
         } else {
           bcrypt.compare(body.password, data[0].password, (err, isSame) => {
             if (err) {
-              reject(err);
+              reject({ msg: "unknown error" });
             }
             if (isSame) {
               const { email, level_id } = data[0];

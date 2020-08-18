@@ -25,8 +25,10 @@ const responseForm = {
       isSuccess: true,
       status: status,
       data,
+      pageInfo:{
       prevPage,
       nextPage,
+      }
     };
     res.json(resObj);
   },
