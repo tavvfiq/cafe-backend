@@ -6,10 +6,22 @@ const selectQuery =
   "SELECT menu.id, menu.name, menu.image_path, menu.price, category.category, menu.added_at, menu.updated_at FROM menu JOIN category ON menu.category_id = category.id";
 
 const menuModel = {
-  getAllmenus: function () {
+  getAllmenus: function (query) {
+    let queryString = "";
+    if (query.length === 0) {
+      queryString = selectQuery;
+    } else {
+      if(query.page ===undefined || query.limit === undefined){
+        queryString = `${selectQuery} WHERE menu.name LIKE '%${query.search}%' ORDER BY menu.${query.sortby} ${query.order}`;
+      } else {
+        const offset = (Number(query.page) - 1) * Number(query.limit);
+        queryString = `${selectQuery} WHERE menu.name LIKE '%${query.search}%' ORDER BY menu.${query.sortby} ${query.order} LIMIT ${query.limit} OFFSET ${offset}`;
+      }
+    }
     return new Promise((resolve, reject) => {
-      const getAllmenuQuery = `${selectQuery}`;
-      database.query(getAllmenuQuery, (err, data) => {
+      // const getAllmenuQuery = `${selectQuery}`;
+      database.query(queryString, (err, data) => {
+        // console.log(data);
         if (!err) {
           resolve(data);
         } else {
