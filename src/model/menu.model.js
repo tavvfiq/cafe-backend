@@ -8,7 +8,8 @@ const selectQuery =
 const menuModel = {
   getAllmenus: function (query) {
     let queryString = "";
-    if (query.length === 0) {
+    console.log(query.length);
+    if (query.length === undefined) {
       queryString = selectQuery;
     } else {
       if(query.page ===undefined || query.limit === undefined){
