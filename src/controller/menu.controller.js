@@ -15,7 +15,7 @@ const menuController = {
   },
   getMenuById: function(req,res){
     menuModel.getMenuById(req.params.id).then((data)=>{
-      responseForm.success(res,{data},200)
+      responseForm.success(res,data,200)
     }).catch((err)=>{
       responseForm.error(res,err,500);
     })

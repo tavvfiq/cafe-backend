@@ -13,8 +13,6 @@ const menuRouter = express.Router();
 
 //get all menu available
 menuRouter.get("/", menuMiddleware, menuController.getAllmenus);
-//get all menu available
-menuRouter.get("/:id", menuMiddleware, menuController.getMenuById);
 //add menu
 menuRouter.post("/", checkToken.isMaintainer, singleFileUpload.singleUpload, menuMiddleware, menuController.addmenu);
 
@@ -29,5 +27,7 @@ menuRouter.get("/sort", menuMiddleware, menuController.sortmenuBy);
 menuRouter.get("/search", menuMiddleware, menuController.searchmenuByName);
 //get menu name
 menuRouter.get("/filter",menuMiddleware, menuController.filterMenu);
+//get all menu available
+menuRouter.get("/:id", menuMiddleware, menuController.getMenuById);
 
 module.exports = menuRouter;
