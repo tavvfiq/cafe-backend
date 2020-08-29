@@ -13,6 +13,8 @@ const menuRouter = express.Router();
 
 //get all menu available
 menuRouter.get("/", menuMiddleware, menuController.getAllmenus);
+//get all menu available
+menuRouter.get("/:id", menuMiddleware, menuController.getMenuById);
 //add menu
 menuRouter.post("/", checkToken.isMaintainer, singleFileUpload.singleUpload, menuMiddleware, menuController.addmenu);
 

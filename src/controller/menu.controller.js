@@ -13,6 +13,13 @@ const menuController = {
         responseForm.error(res, err, 500);
       });
   },
+  getMenuById: function(req,res){
+    menuModel.getMenuById(req.params.id).then((data)=>{
+      responseForm.success(res,{data},200)
+    }).catch((err)=>{
+      responseForm.error(res,err,500);
+    })
+  },
   sortmenuBy: function (req, res) {
     menuModel
       .sortmenuBy(req.query)

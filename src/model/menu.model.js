@@ -2,6 +2,9 @@ const database = require("../config/config");
 
 const moment = require("moment");
 
+const _ = require("underscore");
+const { isEmpty } = require("underscore");
+
 const selectQuery =
   "SELECT menu.id, menu.name, menu.image_path, menu.price, category.category, menu.added_at, menu.updated_at FROM menu JOIN category ON menu.category_id = category.id";
 
@@ -12,7 +15,7 @@ const menuModel = {
     if (query.length === undefined) {
       queryString = selectQuery;
     } else {
-      if(query.page ===undefined || query.limit === undefined){
+      if (query.page === undefined || query.limit === undefined) {
         queryString = `${selectQuery} WHERE menu.name LIKE '%${query.search}%' ORDER BY menu.${query.sortby} ${query.order}`;
       } else {
         const offset = (Number(query.page) - 1) * Number(query.limit);
@@ -25,6 +28,22 @@ const menuModel = {
         // console.log(data);
         if (!err) {
           resolve(data);
+        } else {
+          reject(err);
+        }
+      });
+    });
+  },
+  getMenuById: function (id) {
+    return new Promise((resolve, reject) => {
+      const query = "SELECT name FROM menu WHERE id=?";
+      database.query(query, id, (err, data) => {
+        if (!err) {
+          if (_.isEmpty(data)) {
+            resolve({ msg: "id not found" });
+          } else {
+            resolve({msg:data[0].name});
+          }
         } else {
           reject(err);
         }
