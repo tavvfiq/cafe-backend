@@ -52,11 +52,18 @@ const menuController = {
   deletemenu: function (req, res) {
     menuModel
       .deletemenu(req.params.id)
-      .then((data) => {
-        const responseObj = {
-          msg: `delete menu with id: ${req.params.id} was successful`,
-        };
-        responseForm.success(res, responseObj, 200);
+      .then((affectedRow) => {
+        if (Number(affectedRow) === 0) {
+          responseForm.success(res, { msg: "id not found" }, 200);
+        } else {
+          responseForm.success(
+            res,
+            {
+              msg: `delete menu with id: ${req.params.id} was successful`,
+            },
+            200
+          );
+        }
       })
       .catch((err) => {
         responseForm.error(res, err, 500);

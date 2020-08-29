@@ -80,7 +80,7 @@ const menuModel = {
       const deletemenuQuery = `DELETE FROM menu WHERE menu.id = ${id}`;
       database.query(deletemenuQuery, (err, data) => {
         if (!err) {
-          resolve(data);
+          resolve(data.affectedRows);
         } else {
           reject(err);
         }
