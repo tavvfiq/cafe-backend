@@ -23,9 +23,7 @@ const authModel = {
                 email: body.email,
                 level_id: body.level_id,
               };
-              const token = jwt.sign(payload, process.env.SECRET_KEY, {
-                expiresIn: "1d",
-              });
+              const token = jwt.sign(payload, process.env.SECRET_KEY);
               const { first_name, last_name, level_id } = data[1][0];
               const msg = "Account Registered";
               resolve({ first_name, last_name, level_id, msg, token });
@@ -59,9 +57,7 @@ const authModel = {
                 email,
                 level_id,
               };
-              const token = jwt.sign(payload, process.env.SECRET_KEY, {
-                expiresIn: "1d",
-              });
+              const token = jwt.sign(payload, process.env.SECRET_KEY);
               const msg = "Successfully log in";
               resolve({ first_name, last_name, level_id, msg, token });
             } else {
