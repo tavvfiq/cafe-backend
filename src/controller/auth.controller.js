@@ -13,7 +13,6 @@ const authController = {
       });
   },
   login: (req, res) => {
-    console.log(req.body);
     authModel
       .login(req.body)
       .then((data) => {
@@ -24,7 +23,6 @@ const authController = {
       });
   },
   userData: (req, res) => {
-    console.log(req.body);
     authModel
       .userData(req.body)
       .then((data) => {

@@ -11,7 +11,7 @@ const checkToken = {
     try {
       const token = bearerToken.split(" ")[1];
       const decodedToken = jwt.verify(token, process.env.SECRET_KEY);
-      if (Number(decodedToken.level_id) > 1) {
+      if (Number(decodedToken.level_id) >= 1) {
         req.decodedToken = decodedToken;
         next();
       } else {
