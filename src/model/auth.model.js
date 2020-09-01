@@ -11,22 +11,34 @@ const authModel = {
           reject({ msg: "unknown error" });
         }
         bcrypt.hash(password, salt, (err, hashedPassword) => {
-          const registerQuery =
-            "INSERT INTO users SET ?;SELECT first_name, last_name, level_id FROM users WHERE users.email=?;";
+          let registerQuery = "";
+          if (body.notLoggingIn) {
+            registerQuery = "INSERT INTO users SET ?";
+          } else {
+            registerQuery =
+              "INSERT INTO users SET ?;SELECT first_name, last_name, level_id FROM users WHERE users.email=?;";
+          }
+          const { notLoggingIn, ...updatedBody } = body;
+          console.log(updatedBody);
           if (err) {
             reject({ msg: "unknown error" });
           }
-          const newBody = { ...body, password: hashedPassword };
+          const newBody = { ...updatedBody, password: hashedPassword };
           database.query(registerQuery, [newBody, body.email], (err, data) => {
             if (!err) {
-              const payload = {
-                email: body.email,
-                level_id: body.level_id,
-              };
-              const token = jwt.sign(payload, process.env.SECRET_KEY);
-              const { first_name, last_name, level_id } = data[1][0];
-              const msg = "Account Registered";
-              resolve({ first_name, last_name, level_id, msg, token });
+              try {
+                const payload = {
+                  email: body.email,
+                  level_id: body.level_id,
+                };
+                const token = jwt.sign(payload, process.env.SECRET_KEY);
+                const { first_name, last_name, level_id } = data[1][0];
+                const msg = "Account Registered";
+                resolve({ first_name, last_name, level_id, msg, token });
+              } catch (e) {
+                const msg = "Account Registered";
+                resolve({ msg });
+              }
             } else {
               reject({ msg: "account exist" });
             }

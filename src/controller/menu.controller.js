@@ -1,30 +1,32 @@
 const menuModel = require("../model/menu.model");
 const responseForm = require("../helpers/form/responseForm");
-const moment = require("moment");
 
 const menuController = {
   getAllmenus: function (req, res) {
     menuModel
       .getAllmenus(req.query)
-      .then((data) => {
-        responseForm.pagination(req.query, res, data, 200);
+      .then((menu) => {
+        responseForm.pagination(req.query, res, { menu }, 200);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
       });
   },
-  getMenuById: function(req,res){
-    menuModel.getMenuById(req.params.id).then((data)=>{
-      responseForm.success(res,data,200)
-    }).catch((err)=>{
-      responseForm.error(res,err,500);
-    })
+  getMenuById: function (req, res) {
+    menuModel
+      .getMenuById(req.params.id)
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 200);
+      })
+      .catch((err) => {
+        responseForm.error(res, err, 500);
+      });
   },
   sortmenuBy: function (req, res) {
     menuModel
       .sortmenuBy(req.query)
-      .then((data) => {
-        responseForm.success(res, data, 200);
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 200);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
@@ -33,24 +35,18 @@ const menuController = {
   searchmenuByName: function (req, res) {
     menuModel
       .searchmenuByName(req.query.name)
-      .then((data) => {
-        responseForm.success(res, data, 200);
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 200);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
       });
   },
   addmenu: function (req, res) {
-    console.log(req.body);
     menuModel
       .addmenu(req.body)
-      .then((data) => {
-        const responseObj = {
-          menu_id: data.insertId,
-          ...req.body,
-          added_at: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        };
-        responseForm.success(res, responseObj, 201);
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 201);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
@@ -59,18 +55,12 @@ const menuController = {
   deletemenu: function (req, res) {
     menuModel
       .deletemenu(req.params.id)
-      .then((affectedRow) => {
-        if (Number(affectedRow) === 0) {
-          responseForm.success(res, { msg: "id not found" }, 200);
-        } else {
-          responseForm.success(
+      .then((menu) => {
+          responseForm.menuResponse(
             res,
-            {
-              msg: `delete menu with id: ${req.params.id} was successful`,
-            },
+            menu,
             200
           );
-        }
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
@@ -79,12 +69,8 @@ const menuController = {
   updateExistingmenu: function (req, res) {
     menuModel
       .updateExistingmenu(req.params.id, req.body)
-      .then((data) => {
-        const responseObj = {
-          ...req.body,
-          updated_at: moment(Date.now()).format("YYYY-MM-DD HH:mm:ss"),
-        };
-        responseForm.success(res, responseObj, 201);
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 201);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);
@@ -93,8 +79,8 @@ const menuController = {
   filterMenu: function (req, res) {
     menuModel
       .filterMenu(req.query)
-      .then((data) => {
-        responseForm.success(res, data, 200);
+      .then((menu) => {
+        responseForm.menuResponse(res, menu, 200);
       })
       .catch((err) => {
         responseForm.error(res, err, 500);

@@ -3,7 +3,15 @@ const responseForm = {
     const responseObj = {
       isSuccess: true,
       status: status,
-      data: data,
+      data
+    };
+    res.json(responseObj);
+  },
+  menuResponse: function(res, menu,status){
+    const responseObj = {
+      isSuccess: true,
+      status: status,
+      menu
     };
     res.json(responseObj);
   },
@@ -15,12 +23,12 @@ const responseForm = {
     };
     res.json(responseObj);
   },
-  pagination: function (query, res, data, status) {
+  pagination: function (query, res, {menu}, status) {
     let page = query.page;
     let limit = 0;
     let prevPage = "";
     let nextPage = "";
-    if (data.length !== 0) {
+    if (menu.length !== 0) {
       page = Number(query.page);
       limit = Number(query.limit);
       prevPage =
@@ -36,7 +44,7 @@ const responseForm = {
     const resObj = {
       isSuccess: true,
       status: status,
-      data,
+      menu,
       pageInfo: {
         page,
         prevPage,

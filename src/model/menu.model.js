@@ -11,7 +11,6 @@ const selectQuery =
 const menuModel = {
   getAllmenus: function (query) {
     let queryString = "";
-    console.log(query.length);
     if (query.length === undefined) {
       queryString = selectQuery;
     } else {
@@ -23,9 +22,7 @@ const menuModel = {
       }
     }
     return new Promise((resolve, reject) => {
-      // const getAllmenuQuery = `${selectQuery}`;
       database.query(queryString, (err, data) => {
-        // console.log(data);
         if (!err) {
           resolve(data);
         } else {
@@ -42,7 +39,7 @@ const menuModel = {
           if (_.isEmpty(data)) {
             resolve({ msg: "id not found" });
           } else {
-            resolve({msg:data[0].name});
+            resolve({ msg: data[0].name });
           }
         } else {
           reject(err);
@@ -79,14 +76,17 @@ const menuModel = {
   addmenu: function (body) {
     const { name, image_path, price, category_id } = body;
     return new Promise((resolve, reject) => {
-      const addmenuQuery =
-        "INSERT INTO menu SET name=?, image_path=?, price=?, category_id=?";
+      const startTrans = "START TRANSACTION;";
+      const firstQuery = "INSERT INTO menu SET name=?, image_path=?, price=?, category_id=?;";
+      const lastQuery = selectQuery+";";
+      const commitTrans = "COMMIT;";
+      const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
       database.query(
-        addmenuQuery,
+        allQuery,
         [name, image_path, price, category_id],
         (err, data) => {
           if (!err) {
-            resolve(data);
+            resolve(data[2]);
           } else {
             reject(err);
           }
@@ -96,10 +96,14 @@ const menuModel = {
   },
   deletemenu: function (id) {
     return new Promise((resolve, reject) => {
-      const deletemenuQuery = `DELETE FROM menu WHERE menu.id = ${id}`;
-      database.query(deletemenuQuery, (err, data) => {
+      const startTrans = "START TRANSACTION;";
+      const firstQuery = `DELETE FROM menu WHERE menu.id = ${id};`;
+      const lastQuery = selectQuery+";";
+      const commitTrans = "COMMIT;";
+      const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
+      database.query(allQuery, (err, data) => {
         if (!err) {
-          resolve(data.affectedRows);
+          resolve(data[2]);
         } else {
           reject(err);
         }
@@ -110,13 +114,17 @@ const menuModel = {
     // console.log(body);
     return new Promise((resolve, reject) => {
       const updated_at = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
-      const updatemenuQuery = `UPDATE menu SET ? WHERE menu.id = ${id}`;
+      const startTrans = "START TRANSACTION;";
+      const firstQuery = `UPDATE menu SET ? WHERE menu.id = ${id};`;
+      const lastQuery = selectQuery+";";
+      const commitTrans = "COMMIT;";
+      const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
       database.query(
-        updatemenuQuery,
+        allQuery,
         [{ ...body, updated_at }],
         (err, data) => {
           if (!err) {
-            resolve(data);
+            resolve(data[2]);
           } else {
             reject(err);
           }
