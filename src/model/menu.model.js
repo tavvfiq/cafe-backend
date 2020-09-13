@@ -6,19 +6,57 @@ const _ = require("underscore");
 const { isEmpty } = require("underscore");
 
 const selectQuery =
-  "SELECT menu.id, menu.name, menu.image_path, menu.price, category.category, menu.added_at, menu.updated_at FROM menu JOIN category ON menu.category_id = category.id";
+  "SELECT menu.id, menu.name, menu.image_path, menu.price, menu.quantity, category.category, menu.added_at, menu.updated_at FROM menu JOIN category ON menu.category_id = category.id";
 
 const menuModel = {
   getAllmenus: function (query) {
     let queryString = "";
-    if (query.length === undefined) {
+    if (_.isEmpty(query)) {
       queryString = selectQuery;
     } else {
-      if (query.page === undefined || query.limit === undefined) {
-        queryString = `${selectQuery} WHERE menu.name LIKE '%${query.search}%' ORDER BY menu.${query.sortby} ${query.order}`;
+      if (
+        query.page === undefined ||
+        (query.limit === undefined && query.filter === undefined)
+      ) {
+        queryString =
+          selectQuery +
+          " WHERE menu.name LIKE '%" +
+          query.search +
+          "%' ORDER BY menu." +
+          query.sortby +
+          " " +
+          query.order;
+      } else if (query.filter === undefined) {
+        const offset = (Number(query.page) - 1) * Number(query.limit);
+        queryString =
+          selectQuery +
+          " WHERE menu.name LIKE '%" +
+          query.search +
+          "%' ORDER BY menu." +
+          query.sortby +
+          " " +
+          query.order +
+          " LIMIT " +
+          query.limit +
+          " OFFSET " +
+          offset.toString();
       } else {
         const offset = (Number(query.page) - 1) * Number(query.limit);
-        queryString = `${selectQuery} WHERE menu.name LIKE '%${query.search}%' ORDER BY menu.${query.sortby} ${query.order} LIMIT ${query.limit} OFFSET ${offset}`;
+        queryString =
+          selectQuery +
+          " WHERE menu.name LIKE '%" +
+          query.search +
+          "%' " +
+          "AND category_id=" +
+          query.filter +
+          " ORDER BY menu." +
+          query.sortby +
+          " " +
+          query.order +
+          " LIMIT " +
+          query.limit +
+          " OFFSET " +
+          offset.toString();
       }
     }
     return new Promise((resolve, reject) => {
@@ -77,8 +115,9 @@ const menuModel = {
     const { name, image_path, price, category_id } = body;
     return new Promise((resolve, reject) => {
       const startTrans = "START TRANSACTION;";
-      const firstQuery = "INSERT INTO menu SET name=?, image_path=?, price=?, category_id=?;";
-      const lastQuery = selectQuery+";";
+      const firstQuery =
+        "INSERT INTO menu SET name=?, image_path=?, price=?, category_id=?;";
+      const lastQuery = selectQuery + ";";
       const commitTrans = "COMMIT;";
       const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
       database.query(
@@ -98,7 +137,7 @@ const menuModel = {
     return new Promise((resolve, reject) => {
       const startTrans = "START TRANSACTION;";
       const firstQuery = `DELETE FROM menu WHERE menu.id = ${id};`;
-      const lastQuery = selectQuery+";";
+      const lastQuery = selectQuery + ";";
       const commitTrans = "COMMIT;";
       const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
       database.query(allQuery, (err, data) => {
@@ -116,20 +155,16 @@ const menuModel = {
       const updated_at = moment(Date.now()).format("YYYY-MM-DD HH:mm:ss");
       const startTrans = "START TRANSACTION;";
       const firstQuery = `UPDATE menu SET ? WHERE menu.id = ${id};`;
-      const lastQuery = selectQuery+";";
+      const lastQuery = selectQuery + ";";
       const commitTrans = "COMMIT;";
       const allQuery = startTrans + firstQuery + lastQuery + commitTrans;
-      database.query(
-        allQuery,
-        [{ ...body, updated_at }],
-        (err, data) => {
-          if (!err) {
-            resolve(data[2]);
-          } else {
-            reject(err);
-          }
+      database.query(allQuery, [{ ...body, updated_at }], (err, data) => {
+        if (!err) {
+          resolve(data[2]);
+        } else {
+          reject(err);
         }
-      );
+      });
     });
   },
   filterMenu: function (query) {

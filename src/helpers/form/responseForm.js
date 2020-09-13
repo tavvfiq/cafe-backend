@@ -3,15 +3,15 @@ const responseForm = {
     const responseObj = {
       isSuccess: true,
       status: status,
-      data
+      data,
     };
     res.json(responseObj);
   },
-  menuResponse: function(res, menu,status){
+  menuResponse: function (res, menu, status) {
     const responseObj = {
       isSuccess: true,
       status: status,
-      menu
+      menu,
     };
     res.json(responseObj);
   },
@@ -23,23 +23,43 @@ const responseForm = {
     };
     res.json(responseObj);
   },
-  pagination: function (query, res, {menu}, status) {
+  pagination: function (query, res, { menu }, status) {
     let page = query.page;
     let limit = 0;
     let prevPage = "";
     let nextPage = "";
     if (menu.length !== 0) {
-      page = Number(query.page);
-      limit = Number(query.limit);
-      prevPage =
-        page === 1
+      if (query.filter === undefined) {
+        page = Number(query.page);
+        limit = Number(query.limit);
+        prevPage =
+          page === 1
+            ? ""
+            : `/menu?search=${query.search}&sortby=${query.sortby}&order=${
+                query.order
+              }&page=${page - 1}&limit=${limit}`;
+        menu.length < limit
           ? ""
-          : `/menu?search=${query.search}&sortby=${query.sortby}&order=${
-              query.order
-            }&page=${page - 1}&limit=${limit}`;
-      nextPage = `/menu?search=${query.search}&sortby=${query.sortby}&order=${
-        query.order
-      }&page=${page + 1}&limit=${limit}`;
+          : (nextPage = `/menu?search=${query.search}&sortby=${
+              query.sortby
+            }&order=${query.order}&page=${page + 1}&limit=${limit}`);
+      } else {
+        page = Number(query.page);
+        limit = Number(query.limit);
+        prevPage =
+          page === 1
+            ? ""
+            : `/menu?search=${query.search}&filter=${query.filter}&sortby=${
+                query.sortby
+              }&order=${query.order}&page=${page - 1}&limit=${limit}`;
+        menu.length < limit
+          ? ""
+          : (nextPage = `/menu?search=${query.search}&filter=${
+              query.filter
+            }&sortby=${query.sortby}&order=${query.order}&page=${
+              page + 1
+            }&limit=${limit}`);
+      }
     }
     const resObj = {
       isSuccess: true,
