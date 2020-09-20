@@ -11,5 +11,6 @@ transactionRouter.post(
   checkToken.isCashier,
   transactionController.addTransaction
 );
+transactionRouter.post("/order", transactionController.addOrder);
 
 module.exports = transactionRouter;

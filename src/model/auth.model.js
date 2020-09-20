@@ -16,10 +16,9 @@ const authModel = {
             registerQuery = "INSERT INTO users SET ?";
           } else {
             registerQuery =
-              "INSERT INTO users SET ?;SELECT first_name, last_name, level_id FROM users WHERE users.email=?;";
+              "INSERT INTO users SET ?;SELECT id, first_name, last_name, phone_number, profile_image, level_id FROM users WHERE users.email=?;";
           }
           const { notLoggingIn, ...updatedBody } = body;
-          console.log(updatedBody);
           if (err) {
             reject({ msg: "unknown error" });
           }
@@ -32,14 +31,32 @@ const authModel = {
                   level_id: body.level_id,
                 };
                 const token = jwt.sign(payload, process.env.SECRET_KEY);
-                const { first_name, last_name, level_id } = data[1][0];
-                const msg = "Account Registered";
-                resolve({ first_name, last_name, level_id, msg, token });
+                const {
+                  id,
+                  first_name,
+                  last_name,
+                  phone_number,
+                  profile_image,
+                  level_id,
+                } = data[1][0];
+                const msg = "Register success";
+                resolve({
+                  id,
+                  first_name,
+                  last_name,
+                  phone_number,
+                  profile_image,
+                  level_id,
+                  msg,
+                  token,
+                });
               } catch (e) {
+                console.log(e);
                 const msg = "Account Registered";
-                resolve({ msg });
+                reject({ msg });
               }
             } else {
+              console.log(err);
               reject({ msg: "account exist" });
             }
           });
@@ -50,7 +67,7 @@ const authModel = {
   login: (body) => {
     return new Promise((resolve, reject) => {
       const loginQuery =
-        "SELECT first_name, last_name, email, password, level_id FROM users WHERE email=?;";
+        "SELECT id, first_name, last_name, phone_number, profile_image, email, password, level_id FROM users WHERE email=?;";
       database.query(loginQuery, [body.email], (err, data) => {
         if (err) {
           reject({ msg: "query error" });
@@ -64,14 +81,31 @@ const authModel = {
               reject({ msg: "unknown error" });
             }
             if (isSame) {
-              const { first_name, last_name, email, level_id } = data[0];
+              const {
+                id,
+                first_name,
+                last_name,
+                phone_number,
+                profile_image,
+                email,
+                level_id,
+              } = data[0];
               const payload = {
                 email,
                 level_id,
               };
               const token = jwt.sign(payload, process.env.SECRET_KEY);
               const msg = "Successfully log in";
-              resolve({ first_name, last_name, level_id, msg, token });
+              resolve({
+                id,
+                first_name,
+                last_name,
+                phone_number,
+                profile_image,
+                level_id,
+                msg,
+                token,
+              });
             } else {
               reject({ msg: "Wrong password" });
             }
@@ -80,14 +114,25 @@ const authModel = {
       });
     });
   },
-  userData: (body) => {
+  userData: (id) => {
     return new Promise((resolve, reject) => {
-      const userQuery = `SELECT first_name, last_name, level_id FROM users WHERE users.email=?`;
-      database.query(userQuery, [body.email], (err, data) => {
+      const userQuery = `SELECT id, first_name, last_name, profile_image, phone_number, level_id FROM users WHERE users.id=?`;
+      database.query(userQuery, [id], (err, data) => {
         if (err) {
           reject({ msg: "User not found" });
         }
         resolve(data);
+      });
+    });
+  },
+  updateUser: (id, body) => {
+    return new Promise((resolve, reject) => {
+      const userQuery = `START TRANSACTION;UPDATE users SET ? WHERE users.id=?; SELECT id,first_name, last_name, profile_image, phone_number, level_id FROM users WHERE users.id=?;COMMIT;`;
+      database.query(userQuery, [body, id, id], (err, data) => {
+        if (err) {
+          reject({ msg: "User not found" });
+        }
+        resolve(data[2][0]);
       });
     });
   },

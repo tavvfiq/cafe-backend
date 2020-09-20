@@ -24,7 +24,17 @@ const authController = {
   },
   userData: (req, res) => {
     authModel
-      .userData(req.body)
+      .userData(req.params.id, req.body)
+      .then((data) => {
+        formResponse.success(res, data, 200);
+      })
+      .catch((err) => {
+        formResponse.error(res, err, 500);
+      });
+  },
+  updateUser: (req, res) => {
+    authModel
+      .updateUser(req.params.id, req.body)
       .then((data) => {
         formResponse.success(res, data, 200);
       })

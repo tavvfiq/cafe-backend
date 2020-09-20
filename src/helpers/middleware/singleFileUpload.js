@@ -1,5 +1,6 @@
 const multer = require("multer");
 const path = require("path");
+const responseForm = require("../form/responseForm");
 
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -12,7 +13,7 @@ const storage = multer.diskStorage({
 });
 
 const limits = {
-  fileSize: 1e6,
+  fileSize: 3 * 1e6,
 };
 
 const fileFilter = (req, file, cb) => {
@@ -36,15 +37,29 @@ const singleFileUpload = {
     const singleUpload = upload.single("image");
     singleUpload(req, res, (err) => {
       if (err) {
-        res.json({
-          msg: err,
-        });
+        responseForm.error(res, err, 400);
       } else {
         try {
           req.body.image_path = `${process.env.API_URL}/images/${req.file.filename}`;
-        } catch(err){
+        } catch (err) {
           console.log(err);
-        } finally{
+        } finally {
+          next();
+        }
+      }
+    });
+  },
+  profileImageUpload: (req, res, next) => {
+    const profileImageUpload = upload.single("profile_image");
+    profileImageUpload(req, res, (err) => {
+      if (err) {
+        responseForm.error(res, err, 400);
+      } else {
+        try {
+          req.body.profile_image = `${process.env.API_URL}/images/${req.file.filename}`;
+        } catch (err) {
+          console.log(err);
+        } finally {
           next();
         }
       }
