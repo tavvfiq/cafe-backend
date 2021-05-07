@@ -33,7 +33,7 @@
     "multer": "^1.4.2",
     "mysql": "^2.18.1",
     "nodemon": "^2.0.4",
-    "underscore": "^1.10.2",
+    "underscore": "^1.12.1",
     "underscores": "0.0.1"
   }
 }
